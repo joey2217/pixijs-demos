@@ -1,8 +1,10 @@
 import Star from '../model/Star'
-import crystal from '../assets/images/crystal.png'
+import star from '../assets/images/star.png'
+import ground from '../assets/images/platform.png'
+import background from '../assets/images/background.png'
 
 export default class InitScene extends Phaser.Scene {
-  private platform!: Phaser.GameObjects.Zone
+  private platform!: any
   constructor() {
     super({
       key: 'GameScene',
@@ -10,18 +12,16 @@ export default class InitScene extends Phaser.Scene {
   }
 
   preload(): void {
-    this.load.image('crystal', crystal)
+    this.load.image('star', star)
+    this.load.image('ground', ground)
+    this.load.image('background', background)
   }
 
   create(): void {
-    this.platform = this.make.zone({
-      x: 0,
-      y: 300,
-      width: 600,
-      height: 1,
-    })
-    this.physics.add.world()
-    new Star(this, 100, 100, 'crystal', this.platform)
+    this.add.image(300, 400, 'background')
+    var rect = this.add.rectangle(0, 680, 1200, 10, 0xffffff, 0)
+    this.platform = this.physics.add.existing(rect, true)
+    new Star(this, 300, 100, 'star', this.platform)
   }
 
   update(): void {}
